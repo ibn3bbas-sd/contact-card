@@ -54,34 +54,15 @@
   .badge.blue .dot{background:var(--blue);box-shadow:0 0 0 3px var(--blue-soft);}
   .badge.orange .dot{background:var(--orange);box-shadow:0 0 0 3px var(--orange-soft);}
 
-  /* observability strip: grafana-style metrics graph + k8s status ticker */
-  .metrics-panel{
-    max-width:1080px;margin:36px auto 0;padding:18px 24px 0;
+  /* pulse strip */
+  .pulse-strip{
+    max-width:1080px;margin:36px auto 0;padding:0 24px;overflow:hidden;
     border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    background: repeating-linear-gradient(90deg, var(--bg-grid) 0 1px, transparent 1px 50px);
   }
-  .metrics-legend{
-    display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);
-    margin-bottom:10px;
-  }
-  .metrics-legend .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;}
-  .metrics-legend .dot.green{background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
-  .metrics-legend .dot.blue{background:var(--blue);box-shadow:0 0 0 3px var(--blue-soft);}
-  .metrics-legend .dot.orange{background:var(--orange);box-shadow:0 0 0 3px var(--orange-soft);}
-  .metrics-chart-wrap{
-    overflow:hidden;
-    background:
-      repeating-linear-gradient(90deg, var(--bg-grid) 0 1px, transparent 1px 60px),
-      repeating-linear-gradient(0deg, var(--bg-grid) 0 1px, transparent 1px 20px);
-  }
-  .metrics-track{display:flex;width:max-content;animation:scroll-metrics 16s linear infinite;}
-  .metrics-track svg{display:block;width:600px;height:72px;flex-shrink:0;}
+  .pulse-track{display:flex;width:max-content;animation:scroll-metrics 12s linear infinite;}
+  .pulse-track svg{display:block;width:700px;height:80px;flex-shrink:0;}
   @keyframes scroll-metrics{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
-  .node-ticker-wrap{overflow:hidden;white-space:nowrap;border-top:1px solid var(--border);padding:9px 0;}
-  .node-ticker{display:inline-flex;width:max-content;animation:scroll-metrics 26s linear infinite;}
-  .node-ticker span{
-    flex-shrink:0;white-space:nowrap;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);padding-right:48px;
-  }
-  .node-ticker .ok{color:var(--accent);}
 
   /* layout */
   .layout{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:220px 1fr;gap:0;padding:0 24px;}
@@ -178,33 +159,14 @@
     </div>
   </div>
 
-  <div class="metrics-panel">
-    <div class="metrics-legend">
-      <span><span class="dot green"></span>cpu_usage{node="oke-jed-1"}</span>
-      <span><span class="dot blue"></span>network_io_bytes</span>
-      <span><span class="dot orange"></span>request_latency_ms</span>
-    </div>
-    <div class="metrics-chart-wrap">
-      <div class="metrics-track">
-        <svg viewBox="0 0 600 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="14" x2="600" y2="14" stroke="#f0883e" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>
-          <polyline fill="none" stroke="#2dd4a0" stroke-width="2" points="0,40 30,34 60,42 90,30 120,37 150,24 180,32 210,20 240,28 270,22 300,34 330,26 360,32 390,22 420,28 450,18 480,26 510,32 540,22 570,28 600,34" />
-          <polyline fill="none" stroke="#58a6ff" stroke-width="2" points="0,50 30,44 60,28 90,46 120,33 150,50 180,38 210,46 240,30 270,42 300,22 330,40 360,48 390,33 420,44 450,37 480,48 510,30 540,42 570,48 600,33" />
-          <polyline fill="none" stroke="#f0883e" stroke-width="2" points="0,58 30,58 60,55 90,58 120,16 150,56 180,58 210,58 240,58 270,58 300,18 330,58 360,58 390,55 420,58 450,58 480,58 510,24 540,58 570,58 600,55" />
-        </svg>
-        <svg viewBox="0 0 600 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="14" x2="600" y2="14" stroke="#f0883e" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>
-          <polyline fill="none" stroke="#2dd4a0" stroke-width="2" points="0,40 30,34 60,42 90,30 120,37 150,24 180,32 210,20 240,28 270,22 300,34 330,26 360,32 390,22 420,28 450,18 480,26 510,32 540,22 570,28 600,34" />
-          <polyline fill="none" stroke="#58a6ff" stroke-width="2" points="0,50 30,44 60,28 90,46 120,33 150,50 180,38 210,46 240,30 270,42 300,22 330,40 360,48 390,33 420,44 450,37 480,48 510,30 540,42 570,48 600,33" />
-          <polyline fill="none" stroke="#f0883e" stroke-width="2" points="0,58 30,58 60,55 90,58 120,16 150,56 180,58 210,58 240,58 270,58 300,18 330,58 360,58 390,55 420,58 450,58 480,58 510,24 540,58 570,58 600,55" />
-        </svg>
-      </div>
-    </div>
-    <div class="node-ticker-wrap">
-      <div class="node-ticker">
-        <span>● node/oke-jed-1 <span class="ok">Ready</span> &nbsp;&nbsp; ● node/oke-jed-2 <span class="ok">Ready</span> &nbsp;&nbsp; ● pod/prometheus-server-0 <span class="ok">Running</span> &nbsp;&nbsp; ● pod/grafana-6d9f8-z9x1 <span class="ok">Running</span> &nbsp;&nbsp; ● pod/kube-proxy-h7m2 <span class="ok">Running</span> &nbsp;&nbsp; ● deployment/api rolled out</span>
-        <span>● node/oke-jed-1 <span class="ok">Ready</span> &nbsp;&nbsp; ● node/oke-jed-2 <span class="ok">Ready</span> &nbsp;&nbsp; ● pod/prometheus-server-0 <span class="ok">Running</span> &nbsp;&nbsp; ● pod/grafana-6d9f8-z9x1 <span class="ok">Running</span> &nbsp;&nbsp; ● pod/kube-proxy-h7m2 <span class="ok">Running</span> &nbsp;&nbsp; ● deployment/api rolled out</span>
-      </div>
+  <div class="pulse-strip">
+    <div class="pulse-track">
+      <svg viewBox="0 0 700 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="none" stroke="#2dd4a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,40 L20,40 C25,40 25,30 30,30 C35,30 35,40 40,40 L60,40 L65,40 L70,8 L75,72 L80,40 L100,40 C108,40 108,20 116,20 C124,20 124,40 132,40 L175,40 L195,40 C200,40 200,30 205,30 C210,30 210,40 215,40 L235,40 L240,40 L245,8 L250,72 L255,40 L275,40 C283,40 283,20 291,20 C299,20 299,40 307,40 L350,40 L370,40 C375,40 375,30 380,30 C385,30 385,40 390,40 L410,40 L415,40 L420,8 L425,72 L430,40 L450,40 C458,40 458,20 466,20 C474,20 474,40 482,40 L525,40 L545,40 C550,40 550,30 555,30 C560,30 560,40 565,40 L585,40 L590,40 L595,8 L600,72 L605,40 L625,40 C633,40 633,20 641,20 C649,20 649,40 657,40 L700,40" />
+      </svg>
+      <svg viewBox="0 0 700 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="none" stroke="#2dd4a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M0,40 L20,40 C25,40 25,30 30,30 C35,30 35,40 40,40 L60,40 L65,40 L70,8 L75,72 L80,40 L100,40 C108,40 108,20 116,20 C124,20 124,40 132,40 L175,40 L195,40 C200,40 200,30 205,30 C210,30 210,40 215,40 L235,40 L240,40 L245,8 L250,72 L255,40 L275,40 C283,40 283,20 291,20 C299,20 299,40 307,40 L350,40 L370,40 C375,40 375,30 380,30 C385,30 385,40 390,40 L410,40 L415,40 L420,8 L425,72 L430,40 L450,40 C458,40 458,20 466,20 C474,20 474,40 482,40 L525,40 L545,40 C550,40 550,30 555,30 C560,30 560,40 565,40 L585,40 L590,40 L595,8 L600,72 L605,40 L625,40 C633,40 633,20 641,20 C649,20 649,40 657,40 L700,40" />
+      </svg>
     </div>
   </div>
 
